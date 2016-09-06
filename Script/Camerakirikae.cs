@@ -2,10 +2,9 @@
 using System.Collections;
 using UnityEngine.UI;
 /// <summary>
-/// コイツは監視カメラの情報をしまったりぃ、
-/// 監視カメラの切り替えの本題的な部分とかを担ってんだぁ
-/// 過労死シンクロン的なスクリプトだっぺ
-/// プレイヤーのリジットボデェのところになげて使うんだっぺ
+/// コイツは監視カメラの情報をしまっている。、
+/// 監視カメラの切り替えの役割を持つ
+/// プレイヤーのリジットボディのところになげて使う
 /// </summary>
 public class Camerakirikae : MonoBehaviour {
     public bool Playermode = true;
@@ -32,7 +31,6 @@ public class Camerakirikae : MonoBehaviour {
 	void Update () {
         Jairon = main.GetComponent<jairon>();
         //新しい監視カメラの登録及び監視カメラの切り替えに使っている。
-        //具体的にどう動いてるかわからないのは全部ドン・サウザントのせい。
         if (cameras[0] != null)
         {
             if (cameracode >= cameras.Length)
