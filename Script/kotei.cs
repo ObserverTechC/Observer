@@ -5,7 +5,7 @@ public class kotei : MonoBehaviour {
     /// <summary>
     /// 主人公のモデルが傾かないようにするためのスクリプト
     /// </summary>
-
+	public Transform maincgamera;
 	// Use this for initialization
 	void Start () {
 	
@@ -13,6 +13,8 @@ public class kotei : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        gameObject.transform.rotation = Quaternion.Euler(0, gameObject.transform.rotation.y,0 );
+		Vector3 rot = maincgamera.localRotation.eulerAngles;
+		rot = new Vector3 (0,rot.y,0);
+		gameObject.transform.localRotation = Quaternion.Euler (rot);
     }
 }

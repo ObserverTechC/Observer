@@ -54,7 +54,7 @@ public class teiden : MonoBehaviour
         teidenbool = false;
         yield return new WaitForSeconds(1f);
         iTween.RotateTo(BAKETU, iTween.Hash("x", -80, "islocal", true, "time", 0.1f));
-        iTween.MoveTo(BAKETU, iTween.Hash("z", -0.03, "islocal", true, "time", 0.1f));
+        iTween.MoveBy(BAKETU, iTween.Hash("z", -0.03, "islocal", true, "time", 0.1f));
         NEWBAKETU.SetActive(true);
         MIZU.SetActive(false);
         yield return new WaitForSeconds(1f);
@@ -62,6 +62,5 @@ public class teiden : MonoBehaviour
         {
             obj[i].SetActive(true);
         }
-        GetComponent<setumei>().StartCoroutine("setumeikaisi");
     }
 }

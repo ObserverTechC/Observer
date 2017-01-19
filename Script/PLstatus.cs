@@ -25,9 +25,16 @@ public class PLstatus : MonoBehaviour {
     jairon Jairon;
     Mayoibi mayoibi;
     AudioSource[] bgm;
+    bool urakamera = false;
     bool audioplay = false;
-	// Use this for initialization
-	void Start () {
+    bool sunaplay = false;
+    public Camera hellcamera;
+    GameObject[] enemyobjs = new GameObject[3];
+    Vector3[] enemypositions = new Vector3[3];
+    int obj = 0;
+    public Image shake;
+    // Use this for initialization
+    void Start () {
         Joystick = GameObject.Find("MobileJoystick").GetComponent<Image>();//ジョイスティック読み取り　名前が変わると動かなくなってしまう
         camerakirikae = GameObject.Find("RigidBodyFPSController").GetComponent<Camerakirikae>();
         Maincamera = gameObject.transform.FindChild("MainCamera").gameObject;
@@ -50,7 +57,11 @@ public class PLstatus : MonoBehaviour {
             Handheld.Vibrate();//バイブレーションを起こす
 
             //追記ここまで
-
+            if (!urakamera)
+            {
+                urakamera = true;
+                hellcamera.enabled = true;
+            }
             //プレイヤーに鬼を強制的に向かせ、ﾌﾞﾙｯﾌﾞﾙ震えさせる
             if (enemy != null) {
                 Maincamera.transform.LookAt(enemy.transform);
@@ -66,15 +77,12 @@ public class PLstatus : MonoBehaviour {
             //damage1.color = new Color(1, 1, 1, 1 - HP / 100);
             damage.color = new Color(1, 1, 1, 1 - HP / 200);
         }
-
-        if (sup)
+        if (sup && HP < 100)
         {
-            damage.color = new Color(1, 1, 1, 1 - HP / 100);
-            //damage1.color = new Color(1, 1, 1, 0);
-            HP += 0.3f;
+            HP += 0.8f;
         }//徐々に回復
 
-        if (HP > 100)
+        if (HP >= 100)
         {
             HP = 100;
         }
@@ -82,6 +90,12 @@ public class PLstatus : MonoBehaviour {
 
         if (HP <= 0)//体力がなくなった場合
         {
+            if (!sunaplay)
+            {
+                sunaplay = true;
+                bgm[2].Play();
+            }
+            bgm[1].Stop();
             gameObject.GetComponent<GameOver>().enabled = true;
             GB = true;//ゲームオーバー
             attacker = false;
@@ -100,16 +114,18 @@ public class PLstatus : MonoBehaviour {
         }
         //
 
-        //画面タップによる抵抗
-        /*
+        
+#if UNITY_EDITOR
+        //画面クリックによる抵抗
         if (attacker == true&&Input.GetMouseButtonDown(0))
         {
             cupcout++;
         }
-        */
+#endif
 
         if (dam <= cupcout)
         {
+            shake.enabled = false;
             dam = dam * 2;
             cupcout = 0;
             Invoke("supON", 3);
@@ -126,13 +142,23 @@ public class PLstatus : MonoBehaviour {
             audioplay = false;
             bgm[1].Stop();
         }
+        damage.color = new Color(1, 1, 1, 0);
+        hellcamera.enabled = false;
         attacker = false;
         enemy.GetComponent<Mayoibi>().enabled = true;
         enemy.GetComponent<haikai>().enabled = true;
-        Find.sikakuhantei = false;
-        mayoibi.captureMode = false;
+        enemyobjs[obj] = enemy;
+        enemypositions[obj] = enemy.transform.position;
+        enemy.transform.position = new Vector3(0,0,0);
+        if (obj < 3)
+        {
+            obj++;
+        }else {
+            obj = 0;
+        }
+
         Jairon.enabled = true;
-        mayoibi.Invoke("sikaku_sessyoku_hukkatu", 2);//2秒後視覚と接触の判定が復活する。
+        mayoibi.Invoke("sikaku_sessyoku_hukkatu", 10);//2秒後視覚と接触の判定が復活する。
         //追記点・カメラの切り替えを再度可能にする
         //Jairon.enabled = true;
         Screen.autorotateToLandscapeRight = true;
@@ -146,6 +172,7 @@ public class PLstatus : MonoBehaviour {
     public void Damage(float damage)//敵に触れる
     {
         Debug.Log("DAMAGE");
+        shake.enabled = true;
         if (!audioplay)
         {
             audioplay = true;

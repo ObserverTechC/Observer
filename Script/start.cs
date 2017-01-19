@@ -10,6 +10,9 @@ public class start : MonoBehaviour
     float time;
     bool Fadeout = true;
     float z;
+    public AudioSource se;
+    bool seplay = false;
+
     public void Buttonpush()
     {
         if (Fadeout)
@@ -31,6 +34,11 @@ public class start : MonoBehaviour
         iTween.ScaleTo(gameObject, iTween.Hash("x", 3, "y", 4, "time", 6.0f));
         Image img = transform.transform.FindChild("titleImage").gameObject.GetComponent<Image>();
         img.sprite = snaarashi;
+        if (!seplay)
+        {
+            se.Play();
+            seplay = true;
+        }
         for (float i = 0; i <= 3 ;)
         {
             if(z == 180){

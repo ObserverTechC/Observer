@@ -17,6 +17,7 @@ public class Mayoibi : MonoBehaviour {
     public int damage = 5;
     public GameObject player;
     
+    
 	// Use this for initialization
 	void Start () {
         agent = gameObject.GetComponent<NavMeshAgent>();
@@ -39,34 +40,7 @@ public class Mayoibi : MonoBehaviour {
                 apos = transform.position;
             }
         }
-        GameObject obj = transform.FindChild("find").gameObject;
-        Find = obj.GetComponent<find>();
-        if (Find.Findbool)
-        {
-            time = 0;
-            captureMode = true;
-            AItoggle = true;
-            agent.velocity = Vector3.zero;
-            agent.Stop();
-
-            gameObject.GetComponent<haikai>().enabled = false;
-        }
-        else if (time >= tuisekizikan * 60)
-        {
-            AItoggle = false;
- //           captureMode = false;
-            gameObject.GetComponent<haikai>().enabled = true;
-            if (Find.sound)
-            {
-                Find.sound = false;
-                player.GetComponents<AudioSource>()[1].Stop();
-            }
-        }
-        else
-        {
-            time++;
-        }
-
+        
 
 		if (AItoggle == true) {
 			MayoibiAI ();//専用AI起動
@@ -78,11 +52,9 @@ public class Mayoibi : MonoBehaviour {
 		//targetに向かって進む
         transform.position += transform.forward * (agent.speed / 160f);//追いかけるスピード 1フレームごとに一定数近づく仕様上小さい数字でも超速い
     }
-    public void sikaku_sessyoku_hukkatu()
+    void sikaku_sessyoku_hukkatu()
     {
         //視覚判定・接触判定を復活させる
         captureMode = true;
-        Find.sikakuhantei = true;
     }
-
 }

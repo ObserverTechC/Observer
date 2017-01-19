@@ -8,15 +8,23 @@ public class camerahac : MonoBehaviour
     /// カメラをタッチしたかの判定のスクリプト
     /// </summary>
     GameObject target;
-    public Camera activecamera;
+    stickset stick;
     Camerakirikae camerakirikae;
     public float cameracode = 0;
     public GameObject obj2;
     Ray ray;
+    public Material lightmaterial;
     string rayobj;
-    void start()
+    public bool cameraon = false;
+    public ligahtcolor setlighatcolor;
+    public enum ligahtcolor{
+        non,
+        nomal,
+        alert
+    }
+    void Start()
     {
-
+        stick = GameObject.Find("MobileSingleStickControl").GetComponent<stickset>();
     }
     void Update()
     {
@@ -36,15 +44,25 @@ public class camerahac : MonoBehaviour
             RaycastHit hit = new RaycastHit();
             if (Physics.Raycast(ray, out hit))
             {
-                Debug.Log(hit.collider.gameObject);
                 rayobj = hit.collider.gameObject.ToString();
                 GameObject obj = hit.collider.gameObject;
                 if (obj == gameObject)
                 {
+                    cameraon = true;
+                    stick.ok = false;
                     if (cameracode == 0)
                     {
-                        Light ligatgrean = transform.FindChild("Point light").gameObject.GetComponent<Light>() ;
-                        ligatgrean.enabled = true;
+                        Renderer ligatgrean = transform.FindChild("light").GetComponent<Renderer>();
+                        ligatgrean.material = lightmaterial;
+                        Light pligat = transform.FindChild("light/Point light").gameObject.GetComponent<Light>();
+                        switch (setlighatcolor){
+                            case ligahtcolor.nomal:
+                                pligat.color = Color.green;
+                                break;
+                            case ligahtcolor.alert:
+                                pligat.color = Color.red;
+                                break;
+                        }
                         //初めて自分がタッチされたとき
                         //カメラの向きによりカメラモードの変更を可能にする
                         Screen.autorotateToLandscapeRight = true;

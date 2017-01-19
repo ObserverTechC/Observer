@@ -25,6 +25,7 @@ public class atack : MonoBehaviour
             //Debug.Log(col.gameObject.tag);
             if (col.gameObject.tag == "Player")
             {
+                mayoibi.captureMode = false;
                 PlayerPrefs.SetInt("ONISHI", 0);
                 //捕まった場合
                 //プレイヤーにダメージのスクリプト

@@ -8,10 +8,10 @@ public class setumei : MonoBehaviour {
     /// 表示はmail.csで行います。
     /// </summary>
     Mail mail;
-    public Image setumeiimage;
     public string[] mailname;//送り主
     public string[] mailmasage;//本文
     public bool a = true;
+
     float n = 0;
 	// Use this for initialization
 	void Start () {

@@ -17,27 +17,34 @@ public class jairon : MonoBehaviour
     public float regyrox;
     float gyrosanX, gyrosanY, fgyrox, fgyrox2;
     public bool fast = true;
+    bool crick = false;
     // Use this for initialization
     void Start()
     {
-        //camera = gameObject;
+        GameObject obj = GameObject.Find("RigidBodyFPSController");
+        camerakirikae = obj.GetComponent<Camerakirikae>();
     }
 
     // Update is called once per frame
     void Update()
     {
+#if UNITY_EDITOR
+        if(Input.GetMouseButtonDown(2)){
+            camerakirikae.Playermode = !camerakirikae.Playermode;
+        }
+#elif UNITY_ANDROID
+
         if (fast)
         {
             fast = false;
             gyrodefo = Input.gyro.attitude;
             gyrodefo = Quaternion.Euler(90, 0, 0) * (new Quaternion(-gyrodefo.x, -gyrodefo.y, gyrodefo.z, gyrodefo.w));
             fgyrox2 = gyrodefo.eulerAngles.y;
-            fgyrox = gameObject.transform.eulerAngles.y;
+            fgyrox = transform.eulerAngles.y;
             style = new GUIStyle();
             style.fontSize = 30;
         }
-        GameObject obj = GameObject.Find("RigidBodyFPSController");
-        camerakirikae = obj.GetComponent<Camerakirikae>();
+
         if (Input.gyro.enabled)
         {
             gyro = Input.gyro.attitude;
@@ -76,6 +83,7 @@ public class jairon : MonoBehaviour
             }
         }
         //camera.transform.rotation = Quaternion.AngleAxis(90.0f, Vector3.right) * Input.gyro.attitude * Quaternion.AngleAxis(180.0f, Vector3.forward);
+#endif
     }
 }
 

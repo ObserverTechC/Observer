@@ -13,12 +13,14 @@ public class JairoReset : MonoBehaviour {
     Camerakirikae camerakirikae;
     GameObject main;
     Camera hac;
+    stickset stick;
     public GameObject player;//camerakirikaeのスクリプトが入ったgameobjectを割り当てる
     Quaternion gyro, gyro1;
     // Use this for initialization
     void Start () {
         Input.gyro.enabled = true;
         camerakirikae = player.GetComponent<Camerakirikae>();
+        stick = GameObject.Find("MobileSingleStickControl").GetComponent<stickset>();
     }
 	
 	// Update is called once per frame
@@ -27,6 +29,7 @@ public class JairoReset : MonoBehaviour {
     }
     public void ButtonPush()
     {
+        stick.ok = false;
         if (camerakirikae.Playermode)
         {
             //プレイヤーカメラからの判定取得
