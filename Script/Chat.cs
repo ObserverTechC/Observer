@@ -8,7 +8,7 @@ public class Chat : MonoBehaviour {
     [SerializeField] RectTransform content;
 
     //生成する要素
-    [SerializeField] RectTransform chatBack; //チャットの背景画像
+    [SerializeField] RectTransform chatBack; //チャットの枠
 
     [SerializeField] Text chatText; //チャットのテキスト
 
